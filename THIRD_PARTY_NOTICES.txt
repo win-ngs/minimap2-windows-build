@@ -1,0 +1,99 @@
+Third-Party Notices for minimap2 Windows Build
+==============================================
+
+This release archive includes a prebuilt minimap2 executable and the MSYS2
+UCRT64 runtime DLLs required to run it on Windows.
+
+minimap2 itself is distributed under the MIT License.
+Official minimap2 repository:
+https://github.com/lh3/minimap2
+
+
+minimap2 source components
+==========================
+
+The upstream minimap2 source tree includes small third-party source components
+with their own license notices, including:
+
+  kseq.h, khash.h, ksort.h, kvec.h, krmq.h
+    Copyright notices for Attractive Chaos.
+    License: MIT License.
+
+  misc.c gettimeofday replacement for Windows
+    Copyright (c) 2003 SRA, Inc.
+    Copyright (c) 2003 SKC, Inc.
+    License notice is retained in the upstream source file.
+
+  sse2neon/ source files
+    Project: https://github.com/jratcliff63367/sse2neon
+    License: MIT License.
+
+This Windows build does not modify these upstream source files.
+
+
+Bundled MSYS2 UCRT64 runtime DLLs
+=================================
+
+The following DLLs are included in this release archive:
+
+  libwinpthread-1.dll
+  zlib1.dll
+
+These DLLs are redistributed unmodified from MSYS2 packages.
+
+
+1. libwinpthread-1.dll
+----------------------
+
+Package:
+  mingw-w64-ucrt-x86_64-libwinpthread
+
+Version used for this build:
+  14.0.0.r37.g2bfe61fba-1
+
+Description:
+  MinGW-w64 winpthreads library.
+
+License:
+  MIT AND BSD-3-Clause-Clear, as listed by MSYS2.
+
+MSYS2 package page:
+  https://packages.msys2.org/package/mingw-w64-ucrt-x86_64-libwinpthread
+
+Upstream project:
+  https://www.mingw-w64.org/
+
+
+2. zlib1.dll
+------------
+
+Package:
+  mingw-w64-ucrt-x86_64-zlib
+
+Version used for this build:
+  1.3.2-2
+
+Description:
+  Compression library implementing the deflate compression method.
+
+License:
+  Zlib, as listed by MSYS2.
+
+MSYS2 package page:
+  https://packages.msys2.org/package/mingw-w64-ucrt-x86_64-zlib
+
+Upstream project:
+  https://www.zlib.net/
+
+
+Notes
+=====
+
+The bundled DLLs are included only to make the MSYS2 UCRT64 build of minimap2
+runnable on Windows systems without requiring users to manually locate these
+runtime libraries.
+
+No modifications are made to these DLLs in this release.
+
+For exact license terms, users should refer to the corresponding MSYS2 package
+pages and upstream source packages.
