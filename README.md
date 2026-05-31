@@ -150,17 +150,14 @@ The following checks were run:
 ```text
 make
 make extra
-gzip-compressed FASTA through stdin -> minimap2 mapping
-redirected SAM output checked for LF-only line endings
-redirected help output checked for LF-only line endings
-.mmi index dump/load with Windows C:\ paths
-gzip-compressed FASTA through stdin -> sdust
+test/MT-human.fa mapped against test/MT-orang.fa
+.mmi index dump/load tested with test/MT-human.fa and test/MT-orang.fa
+sdust run on test/MT-human.fa
 git diff --check
 ```
 
-The gzip-through-stdin validation confirms that UCRT64 text-mode file descriptor
-translation does not corrupt compressed input. The redirected-output validation
-confirms that SAM/help output written to files or pipes keeps LF line endings.
+The mapping and index dump/load checks completed successfully with the bundled
+test data.
 
 ## MSYS2-UCRT64 Compatibility Patch
 
@@ -179,6 +176,20 @@ open handling:
 | `minimap2-2.31-patch/main.c` | Sets stdout to binary only when stdout is not a TTY | Keeps redirected and piped SAM/PAF output LF-only while avoiding staircase display in classic Windows consoles |
 | `minimap2-2.31-patch/index.c` | Opens files with `O_BINARY` in `mm_idx_is_idx()` on Windows | Avoids text-mode translation during low-level `.mmi` magic and size checks |
 | `minimap2-2.31-patch/setup.py` | Added `mmio.h` to extension build dependencies | Ensures Python extension rebuild tracking includes the compatibility header |
+
+The patch behavior was checked with:
+
+```text
+gzip-compressed FASTA through stdin -> minimap2 mapping
+redirected SAM output checked for LF-only line endings
+redirected help output checked for LF-only line endings
+.mmi index dump/load with Windows C:\ paths
+gzip-compressed FASTA through stdin -> sdust
+```
+
+The gzip-through-stdin checks confirm that UCRT64 text-mode file descriptor
+translation does not corrupt compressed input. The redirected-output checks
+confirm that output written to files or pipes keeps LF line endings.
 
 ## License
 
