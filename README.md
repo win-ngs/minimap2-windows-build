@@ -171,11 +171,11 @@ open handling:
 
 | File | Change | Reason |
 |---|---|---|
-| `minimap2-2.31-patch/mmio.h` | Added `mm_gzopen_read()` and `mm_set_stdout_binary_if_redirected()` | Centralizes Windows/UCRT64 binary-mode handling for stdin and redirected stdout |
-| `minimap2-2.31-patch/bseq.c`, `index.c`, `sdust.c`, `python/cmappy.h` | Replaced direct `gzdopen(stdin)` / `gzopen()` read paths with `mm_gzopen_read()` | Ensures gzip input from stdin is read after `_setmode(_fileno(stdin), _O_BINARY)`, including library and secondary executable paths |
-| `minimap2-2.31-patch/main.c` | Sets stdout to binary only when stdout is not a TTY | Keeps redirected and piped SAM/PAF output LF-only while avoiding staircase display in classic Windows consoles |
-| `minimap2-2.31-patch/index.c` | Opens files with `O_BINARY` in `mm_idx_is_idx()` on Windows | Avoids text-mode translation during low-level `.mmi` magic and size checks |
-| `minimap2-2.31-patch/setup.py` | Added `mmio.h` to extension build dependencies | Ensures Python extension rebuild tracking includes the compatibility header |
+| `mmio.h` | Added `mm_gzopen_read()` and `mm_set_stdout_binary_if_redirected()` | Centralizes Windows/UCRT64 binary-mode handling for stdin and redirected stdout |
+| `bseq.c`, `index.c`, `sdust.c`, `python/cmappy.h` | Replaced direct `gzdopen(stdin)` / `gzopen()` read paths with `mm_gzopen_read()` | Ensures gzip input from stdin is read after `_setmode(_fileno(stdin), _O_BINARY)`, including library and secondary executable paths |
+| `main.c` | Sets stdout to binary only when stdout is not a TTY | Keeps redirected and piped SAM/PAF output LF-only while avoiding staircase display in classic Windows consoles |
+| `index.c` | Opens files with `O_BINARY` in `mm_idx_is_idx()` on Windows | Avoids text-mode translation during low-level `.mmi` magic and size checks |
+| `setup.py` | Added `mmio.h` to extension build dependencies | Ensures Python extension rebuild tracking includes the compatibility header |
 
 The patch behavior was checked with:
 
