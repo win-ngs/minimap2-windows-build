@@ -5,6 +5,7 @@
 #include <string.h>
 #include <zlib.h>
 #include "minimap.h"
+#include "mmio.h"
 #include "kseq.h"
 KSEQ_DECLARE(gzFile)
 
@@ -46,7 +47,7 @@ static inline void mm_free_reg1(mm_reg1_t *r)
 static inline kseq_t *mm_fastx_open(const char *fn)
 {
 	gzFile fp;
-	fp = fn && strcmp(fn, "-") != 0? gzopen(fn, "r") : gzdopen(fileno(stdin), "r");
+	fp = mm_gzopen_read(fn);
 	return kseq_init(fp);
 }
 

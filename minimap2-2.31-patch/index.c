@@ -12,6 +12,7 @@
 #include "bseq.h"
 #include "minimap.h"
 #include "mmpriv.h"
+#include "mmio.h"
 #include "ksw2.h"
 #include "kvec.h"
 #include "khash.h"
@@ -575,7 +576,11 @@ int64_t mm_idx_is_idx(const char *fn)
 	char magic[4];
 
 	if (strcmp(fn, "-") == 0) return 0; // read from pipe; not an index
+#if defined(_WIN32)
+	fd = open(fn, O_RDONLY | O_BINARY);
+#else
 	fd = open(fn, O_RDONLY);
+#endif
 	if (fd < 0) return -1; // error
 #ifdef WIN32
 	if ((off_end = _lseeki64(fd, 0, SEEK_END)) >= 4) {
@@ -651,7 +656,7 @@ int mm_idx_alt_read(mm_idx_t *mi, const char *fn)
 	gzFile fp;
 	kstream_t *ks;
 	kstring_t str = {0,0,0};
-	fp = fn && strcmp(fn, "-")? gzopen(fn, "r") : gzdopen(fileno(stdin), "r");
+	fp = mm_gzopen_read(fn);
 	if (fp == 0) return -1;
 	ks = ks_init(fp);
 	if (mi->h == 0) mm_idx_index_name(mi);
@@ -686,7 +691,7 @@ static mm_idx_intv_t *mm_idx_bed_read_core(const mm_idx_t *mi, const char *fn, i
 	kstring_t str = {0,0,0};
 	mm_idx_intv_t *I;
 
-	fp = fn && strcmp(fn, "-")? gzopen(fn, "r") : gzdopen(fileno(stdin), "r");
+	fp = mm_gzopen_read(fn);
 	if (fp == 0) return 0;
 	I = CALLOC(mm_idx_intv_t, mi->n_seq);
 	ks = ks_init(fp);
@@ -975,7 +980,7 @@ int32_t mm_idx_spsc_read2(mm_idx_t *idx, const char *fn, int32_t max_sc, float s
 	int32_t dret, j;
 	int64_t n_read = 0;
 
-	fp = fn && strcmp(fn, "-") != 0? gzopen(fn, "rb") : gzdopen(0, "rb");
+	fp = mm_gzopen_read(fn);
 	if (fp == 0) return -1;
 	if (idx->h == 0) mm_idx_index_name(idx);
 	if (max_sc > 63) max_sc = 63;

@@ -4,6 +4,7 @@
 #include <assert.h>
 #define __STDC_LIMIT_MACROS
 #include "bseq.h"
+#include "mmio.h"
 #include "kvec.h"
 #include "kseq.h"
 KSEQ_INIT2(, gzFile, gzread)
@@ -39,7 +40,7 @@ mm_bseq_file_t *mm_bseq_open(const char *fn)
 {
 	mm_bseq_file_t *fp;
 	gzFile f;
-	f = fn && strcmp(fn, "-")? gzopen(fn, "r") : gzdopen(0, "r");
+	f = mm_gzopen_read(fn);
 	if (f == 0) return 0;
 	fp = (mm_bseq_file_t*)calloc(1, sizeof(mm_bseq_file_t));
 	fp->fp = f;

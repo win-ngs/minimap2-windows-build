@@ -4,6 +4,7 @@
 #include "kalloc.h"
 #include "kdq.h"
 #include "kvec.h"
+#include "mmio.h"
 #include "sdust.h"
 
 #define SD_WLEN 3
@@ -196,7 +197,7 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Usage: sdust [-w %d] [-t %d] <in.fa>\n", W, T);
 		return 1;
 	}
-	fp = strcmp(argv[o.ind], "-")? gzopen(argv[o.ind], "r") : gzdopen(fileno(stdin), "r");
+	fp = mm_gzopen_read(argv[o.ind]);
 	ks = kseq_init(fp);
 	while (kseq_read(ks) >= 0) {
 		uint64_t *r;

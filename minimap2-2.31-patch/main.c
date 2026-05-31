@@ -5,6 +5,7 @@
 #include "bseq.h"
 #include "minimap.h"
 #include "mmpriv.h"
+#include "mmio.h"
 #include "ketopt.h"
 
 #ifdef __linux__
@@ -142,6 +143,7 @@ int main(int argc, char *argv[])
 	mm_idx_reader_t *idx_rdr;
 	mm_idx_t *mi;
 
+	mm_set_stdout_binary_if_redirected();
 	mm_verbose = 3;
 	liftrlimit();
 	mm_realtime0 = realtime();

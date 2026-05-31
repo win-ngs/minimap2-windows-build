@@ -38,7 +38,7 @@ setup(
 				   'kalloc.c', 'kthread.c', 'map.c', 'misc.c', 'sdust.c', 'sketch.c', 'esterr.c', 'splitidx.c'],
 		depends = ['minimap.h', 'bseq.h', 'kalloc.h', 'kdq.h', 'khash.h', 'kseq.h', 'ksort.h',
 				   'ksw2.h', 'kthread.h', 'kvec.h', 'mmpriv.h', 'sdust.h',
-				   'python/cmappy.h', 'python/cmappy.pxd'],
+				   'mmio.h', 'python/cmappy.h', 'python/cmappy.pxd'],
 		extra_compile_args = extra_compile_args,
 		include_dirs = include_dirs,
 		libraries = ['z', 'm', 'pthread'])],
